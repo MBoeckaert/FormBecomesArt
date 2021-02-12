@@ -1,0 +1,30 @@
+body{
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 15%, rgba(0,212,255,1) 100%);
+    font-family: "PT Sans", sans-serif;
+}
+.content{
+    background-color: #fefffc;
+    height: 45vh;
+    width: 20vw;
+    border-radius: 2rem;
+    margin: 25vh 10vw;
+}
+
+h1{
+    font-size: 3rem;
+    text-align: center;   
+}
+
+.form-general{
+    height: 30vh;
+    width: 15vw;
+    border-radius: 2rem;
+    margin: 2vh auto;
+    padding: 1vh 0;
+}
+
+.form-general__field{
+    width: 12.5vw;
+    margin: 1vh auto;
+}
