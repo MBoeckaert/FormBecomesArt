@@ -69,3 +69,12 @@ label{
 .black{
     color: black;
 }
+
+
+/* CANVAS */
+canvas{
+    position: absolute;
+    top: 25vh;
+    right: 10vh;
+    border: 1px solid black;
+}
