@@ -19,30 +19,25 @@
         <form class="form-general" action="index.html" method="get">
             <div class="form-general__field">
                 <label for="pick-number">Pick between 1 and 100 balls:</label>
-                <input type="number" name="pick-number" id="pick-number" min="1" max="100" required autofocus
-                    placeholder="1">
+                <input type="number" name="pick-number" id="pick-number" min="1" max="100" autofocus placeholder="1">
             </div>
             <div class="form-general__field">
                 <label class="form-color">Pick a dominant color:</label>
-                <select name="colors">
+                <select name="colors" class="colors">
                     <option value="1">Red</option>
                     <option value="2">Green</option>
                     <option value="3">Blue</option>
                 </select>
             </div>
             <div class="form-general__field">
-                <label class="form-screen">What size of screen you want?</label>
-                <div class="form-radio radio-small">
-                    <input type="radio" id="size-small" name="size" value="small" checked>
-                    <label for="size-small" class="black">Small</label>
+                <label class="form-screen">What kind of balls you want?</label>
+                <div class="form-radio radio-slow">
+                    <input type="radio" id="speed-slow" name="speed" value="slow" checked>
+                    <label for="speed-slow" class="black">Slow balls</label>
                 </div>
-                <div class="form-radio radio-medium">
-                    <input type="radio" id="size-medium" name="size" value="medium">
-                    <label for="size-medium" class="black">Medium</label>
-                </div>
-                <div class="form-radio radio-large">
-                    <input type="radio" id="size-large" name="size" value="large">
-                    <label for="size-large" class="black">Large</label>
+                <div class="form-radio radio-fast">
+                    <input type="radio" id="speed-fast" name="speed" value="fast">
+                    <label for="speed-fast" class="black">Fast balls</label>
                 </div>
                 <div class="form-general__field">
                     <input type="submit" value="submit" class="form-general__submit-button">
@@ -52,7 +47,6 @@
     </main>
     <canvas></canvas>
     <script src="canvas.js"></script>
-    <!--<script src="script.js"></script>-->
 </body>
 
 </html>

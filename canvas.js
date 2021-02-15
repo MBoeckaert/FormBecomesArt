@@ -2,73 +2,73 @@
     const canvas = document.querySelector(`canvas`);
     canvas.width = 750;
     canvas.height = 500;
-    const c = canvas.getContext(`2d`);
+    const c = canvas.getContext(`2d`); // c stands for context
 
-    //this refers to the object that is executing the current function
-    //this in method refers to the object
-    //this in function refers to the window
-    function Circle(x, y, dx, dy, radius) {
-        //check here
-        this.xValue = x;
-        this.yValue = y;
-        this.dx = dx;
-        this.dy = dy;
-        this.radius = radius;
-
-        this.draw = function () {
-            //draw circle
-            c.beginPath();
-            c.arc(this.xValue, this.yValue, radius, 0, Math.PI * 2, false);
-            c.strokeStyle = `blue`;
-            c.stroke();
-            c.fill();
+    //create random rgb color
+    const randomColor = () => {
+        const randomMax255 = (min, max) => {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1) + min);
         }
+        return randomMax255(0, 130);
+    };
 
-        this.update = function () {
-            //if the circle hits the wall let it return
-            if (this.xValue + this.radius > canvas.width || this.xValue - this.radius < 0) {
-                this.dx = -this.dx;
-            }
-            if (this.yValue + this.radius > canvas.height || this.yValue - this.radius < 0) {
-                this.dy = -this.dy;
-            }
-
-            //start animation, dx is for movement speed
-            this.xValue += dx;
-            this.yValue += dy;
-
-            this.draw();
+    //get the value from the dominant answer
+    const option = document.querySelectorAll(`option`);
+    const optionArray = Array.from(option);
+    const getColor = () => {
+        if (optionArray[0].value === `red`) {
+            return `rgb(255, ${randomColor()}, ${randomColor()})`;
+        } else if (optionArray[1].value === `green`) {
+            return `rgb(${randomColor()}, 255, ${randomColor()})`;
+        } else {
+            return `rgb(${randomColor()}, ${randomColor()}, 255)`;
         }
     }
+    console.log(getColor());
 
-    const circleArray = [];
+    let xValue = Math.random() * canvas.width;
+    let yValue = Math.random() * canvas.height;
+    // can use input slow/fast?
+    //random forwards/backwards
+    let dx = (Math.random() - 0.5) * 8;
+    let dy = (Math.random() - 0.5) * 8;
+    let radius = 30;
 
-    for (let i = 0; i < 100; i++) {
-        const radius = 30;
-        //place circle random on screen
-        let xValue = Math.random() * (canvas.width - radius * 2) + radius;
-        let yValue = Math.random() * (canvas.width - radius * 2) + radius;
-        //xd & xy are ancronyms for x- & y-velocity. 
-        // Math.random() - 0.5 = make it move forward or backward and 8 is the speed
-        let dx = (Math.random() - 0.5);
-        let dy = (Math.random() - 0.5);
-
-        circleArray.push(new Circle(xValue, yValue, dx, dy, radius));
-        //include this to the form, so user can choose speed (slow, medium and fast)
+    const circle = () => {
+        //draw circle
+        c.beginPath();
+        c.arc(xValue, yValue, radius, 0, Math.PI * 2, false);
+        c.fillStyle = getColor();
+        c.fill();
     }
 
-    const animate = () => {
-        requestAnimationFrame(animate);
-        //clear after 'refresh'
+    //move the ball
+    const movingBall = () => {
+        //animate creates a loop between movingBall and requestAnimationFrame
+        requestAnimationFrame(movingBall);
+        //'clear' after refresh
         c.clearRect(0, 0, canvas.width, canvas.height);
-
-        for (let i = 0; i < circleArray.length; i++) {
-            circleArray[i].update();
+        circle();
+        //xd & xy are ancronyms for x- & y-velocity. If the circle hits the wall let it return
+        if (xValue + radius > canvas.width || xValue - radius < 0) {
+            dx = -dx;
         }
+        if (yValue + radius > canvas.height || yValue - radius < 0) {
+            dy = -dy;
+        }
+
+        //make the circle move
+        xValue += dx;
+        yValue -= dy;
+
     };
 
     const init = () => {
-        animate();
+        
+        movingBall();
+        //add eventlistener on submit button so you can get the color value
     };
     init();
 }
