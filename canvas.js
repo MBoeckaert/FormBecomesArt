@@ -40,60 +40,80 @@
         console.log(checkedRadio);
         const ballSpeed = () => {
             if (checkedRadio === `slow`) {
-                return 8;
+                return 4;
             } else {
-                return 32;
+                return 16;
             }
         };
+        //create the circles using classes
+        class Circle {
+            constructor(x, y, dx, dy, radius) {
+                this.x = x;
+                this.y = y;
+                this.dx = dx;
+                this.dy = dy;
+                this.radius = radius;
+                this.minRadius = radius;
+                this.color = getColor();
 
-        //circle values
-        let xValue = Math.random() * canvas.width;
-        let yValue = Math.random() * canvas.height;
-        //random forwards/backwards
-        let dx = (Math.random() - 0.5) * ballSpeed();
-        let dy = (Math.random() - 0.5) * ballSpeed();
-        let radius = 30;
+                this.draw = () => {
+                    c.beginPath();
+                    c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                    c.fillStyle = this.color;
+                    c.fill();
+                }
+                this.update = () => {
+                    if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+                        this.dx = -  this.dx;
+                    }
+                    if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+                        this.dy = - this.dy;
+                    }
 
-        //draw circle
-        let circle = () => {
-            c.beginPath();
-            c.arc(xValue, yValue, radius, 0, Math.PI * 2, false);
-            c.fillStyle = getColor();
-            c.fill();
+                    this.x += this.dx;
+                    this.y += this.dy;
+
+                    this.draw();
+                };
+
+            }
         }
 
-        // for (let i = 0; i < 5; i++) {
-        //     const circle = () => {
-        //         c.beginPath();
-        //         c.arc(xValue, yValue, radius, 0, Math.PI * 2, false);
-        //         c.fillStyle = getColor();
-        //         c.fill();
-        //     }
-        //     //const circles = circle();
-        // }
+        let newArray = [];
 
-        //move the ball
+        //get the input from amount of balls
+        const numberValue = document.querySelector(`input[name=pick-number]`).value;
+        const createBalls = () => {
+            newArray = [];
+            for (let i = 0; i < numberValue; i++) {
+                const radius = Math.random() * 10 + 1;
+                //console.log(radius);
+                const x = Math.random() * (canvas.width - radius * 2) + radius;
+                const y = Math.random() * (canvas.height - radius * 2) + radius;
+                const dx = (Math.random() - 0.5) * ballSpeed();
+                const dy = (Math.random() - 0.5) * ballSpeed();
+                newArray.push(new Circle(x, y, dx, dy, radius));
+            }
+            console.log(newArray);
+        };
+
+        createBalls()
+
+        //animate the ball
         const movingBall = () => {
             //animate creates a loop between movingBall and requestAnimationFrame
             requestAnimationFrame(movingBall);
             //'clear' after refresh
             c.clearRect(0, 0, canvas.width, canvas.height);
-            circle();
-            //xd & xy are ancronyms for x- & y-velocity. If the circle hits the wall let it return
-            if (xValue + radius > canvas.width || xValue - radius < 0) {
-                dx = -dx;
+            // circle();
+            for (let i = 0; i < newArray.length; i++) {
+                newArray[i].update();
             }
-            if (yValue + radius > canvas.height || yValue - radius < 0) {
-                dy = -dy;
-            }
-
-            //make the circle move
-            xValue += dx;
-            yValue -= dy;
 
         };
         movingBall();
-    };
+
+    }
 
     const init = () => {
         //submit form
